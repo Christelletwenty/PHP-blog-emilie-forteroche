@@ -9,6 +9,7 @@
     <h2> <?= Utils::format($article->getTitle()) ?> </h2>
     <span class="quotation">«</span>
     <p><?= Utils::format($article->getContent()) ?></p>
+    <p><?= Utils::format("Nb. de vues : " . $article->getViews()) ?></p>
 
     <div class="footer">
         <span class="info"> Publié le <?= Utils::convertDateToFrenchFormat($article->getDateCreation()) ?></span>
@@ -32,10 +33,15 @@
                 echo '      <h3 class="info">Le ' . Utils::convertDateToFrenchFormat($comment->getDateCreation()) . ", " . Utils::format($comment->getPseudo()) . ' a écrit :</h3>';
                 echo '      <p class="content">' . Utils::format($comment->getContent()) . '</p>';
                 echo '  </div>';
+                echo ' <form class="delete" action="index.php?action=deleteComment" method="post">';
+                echo '     <input type="hidden" name="idComment" value="' . ($comment->getId()) . '">';
+                echo '     <button type="submit" class="submit">Supprimer</button>';
+                echo ' </form>';
                 echo '</li>';
             }               
             echo '</ul>';
         } 
+    
     ?>
 
     <form action="index.php" method="post" class="foldedCorner">

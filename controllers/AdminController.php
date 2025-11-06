@@ -17,6 +17,13 @@ class AdminController {
         // On récupère les articles.
         $articleManager = new ArticleManager();
         $articles = $articleManager->getAllArticles();
+        // $commentManager = new CommentManager();
+
+        // foreach ($articles as $article) {
+        //     $article->setCommentCount($commentManager->countCommentsByArticles($article->getId()));
+        //     var_dump("toto".$article->getCommentCount());
+        //     die;
+        // }
 
         // On affiche la page d'administration.
         $view = new View("Administration");
@@ -175,5 +182,36 @@ class AdminController {
        
         // On redirige vers la page d'administration.
         Utils::redirect("admin");
+    }
+
+    /**
+     * Supprimer un commentaire.
+     * @return bool
+     */
+    public function deleteComment() : bool
+    {
+        // Récupération de l'id du commentaire à supprimer.
+        $idComment = Utils::request("idComment");
+        $commentManager = new CommentManager();
+
+        // On charge le commentaire 
+        $comment = $commentManager->getCommentById($idComment);
+        // Si on le trouve pas on sort et on redirige vers home
+        if($comment === null) {
+            Utils::redirect('home');
+            return false;
+        }
+
+        // Si on le trouve on le delete
+        $result = $commentManager->deleteComment($comment);
+
+        // Une fois delete on redirige vers l'article en question
+        if($result) {
+            Utils::redirect('showArticle&id=' . $comment->getIdArticle());
+        } else {
+            Utils::redirect('home');
+        }
+        
+        return $result;
     }
 }

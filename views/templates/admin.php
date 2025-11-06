@@ -12,6 +12,10 @@
         <div class="articleLine">
             <div class="title"><?= $article->getTitle() ?></div>
             <div class="content"><?= $article->getContent(200) ?></div>
+            <div class="content"><?= $article->getViews()?></div>
+            <div class="content"><?= $article->getDateCreation()->format('d/m/Y') ?></div>
+            <div class="content"><?= $article->getCommentCount() ?></div>
+
             <div><a class="submit" href="index.php?action=showUpdateArticleForm&id=<?= $article->getId() ?>">Modifier</a></div>
             <div><a class="submit" href="index.php?action=deleteArticle&id=<?= $article->getId() ?>" <?= Utils::askConfirmation("Êtes-vous sûr de vouloir supprimer cet article ?") ?> >Supprimer</a></div>
         </div>

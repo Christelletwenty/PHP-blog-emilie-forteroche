@@ -11,7 +11,8 @@ class ArticleManager extends AbstractEntityManager
      */
     public function getAllArticles() : array
     {
-        $sql = "SELECT * FROM article";
+        // $sql = "SELECT * FROM article";
+        $sql = "SELECT a.*, COUNT(c.id) AS commentCount FROM article a LEFT JOIN comment c ON c.id_article = a.id GROUP BY a.id;";
         $result = $this->db->query($sql);
         $articles = [];
 
@@ -90,6 +91,17 @@ class ArticleManager extends AbstractEntityManager
     public function deleteArticle(int $id) : void
     {
         $sql = "DELETE FROM article WHERE id = :id";
+        $this->db->query($sql, ['id' => $id]);
+    }
+
+    /**
+     * Incrémente la vue d'un article.
+     * @param int $id : l'id de l'article à incrémenter.
+     * @return void
+     */
+    public function incrementViews(int $id) : void 
+    {
+        $sql = "UPDATE article SET views = views + 1 WHERE id = :id";
         $this->db->query($sql, ['id' => $id]);
     }
 }
