@@ -9,10 +9,11 @@ class ArticleManager extends AbstractEntityManager
      * Récupère tous les articles.
      * @return array : un tableau d'objets Article.
      */
-    public function getAllArticles() : array
+    public function getAllArticles($sortField = "commentCount", $sortOrder = "asc") : array
     {
         // $sql = "SELECT * FROM article";
-        $sql = "SELECT a.*, COUNT(c.id) AS commentCount FROM article a LEFT JOIN comment c ON c.id_article = a.id GROUP BY a.id;";
+        // $sql = "SELECT a.*, COUNT(c.id) AS commentCount FROM article a LEFT JOIN comment c ON c.id_article = a.id GROUP BY a.id ORDER BY :sortField :sortOrder;";
+        $sql = "SELECT a.*, (SELECT COUNT(*) FROM comment c WHERE c.id_article = a.id) AS commentCount FROM article a ORDER BY $sortField $sortOrder;";
         $result = $this->db->query($sql);
         $articles = [];
 
@@ -104,4 +105,12 @@ class ArticleManager extends AbstractEntityManager
         $sql = "UPDATE article SET views = views + 1 WHERE id = :id";
         $this->db->query($sql, ['id' => $id]);
     }
+
+    /**
+     * Trie par odre croissant
+     * @param int $id : l'id de l'article à incrémenter.
+     * @return void
+     */
+    public function getAllSorted() {}
+
 }

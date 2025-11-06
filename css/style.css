@@ -330,6 +330,15 @@ a.info {
   background-color: #899a6f;
 }
 
+.articleLine.header > div > a {
+  opacity: 0;
+}
+
+.articleLine.header > div:hover > a,
+.articleLine.header > div.active > a {
+  opacity: 1;
+}
+
 .adminArticle {
   margin-bottom: 20px;
   background-color: var(--commentPaleColor);

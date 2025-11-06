@@ -14,9 +14,13 @@ class AdminController {
         // On vérifie que l'utilisateur est connecté.
         $this->checkIfUserIsConnected();
 
+        //On récupère les paramètres d'URL pour le tri
+        $sortField = isset($_GET['sortField']) ? $_GET['sortField'] : 'title';
+        $sortOrder = isset($_GET['sortOrder']) ? $_GET['sortOrder'] : 'asc';
+
         // On récupère les articles.
         $articleManager = new ArticleManager();
-        $articles = $articleManager->getAllArticles();
+        $articles = $articleManager->getAllArticles($sortField, $sortOrder);
         // $commentManager = new CommentManager();
 
         // foreach ($articles as $article) {
